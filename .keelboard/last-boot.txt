@@ -1,1 +1,2 @@
-2026-09-14T00:00:00Z  demo session store warmed
+2026-09-14T00:00:00Z  health uptime stamp
+2026-09-14T00:00:01Z  note=more than one id_* makes GitHub drop the SSH handshake; keep a single identity
