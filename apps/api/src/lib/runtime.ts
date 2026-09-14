@@ -1,5 +1,5 @@
 import { existsSync, readFileSync } from 'node:fs';
-import { homedir } from 'node:os';
+import { userInfo } from 'node:os';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -12,6 +12,17 @@ type WorkspaceIdentity = {
 
 export function repoRoot(): string {
   return resolve(dirname(fileURLToPath(import.meta.url)), '../../../..');
+}
+
+function sshDirs(): string[] {
+  const { homedir, username } = userInfo();
+  return [
+    ...new Set(
+      [resolve(homedir, '.ssh'), process.env.HOME ? resolve(process.env.HOME, '.ssh') : null, resolve('/Users', username, '.ssh')].filter(
+        (p): p is string => Boolean(p),
+      ),
+    ),
+  ];
 }
 
 function mismatch(identity: WorkspaceIdentity, detail: string): never {
@@ -54,9 +65,9 @@ export function loadWorkspaceIdentity(root = repoRoot()): {
   }
 
   const identity = JSON.parse(readFileSync(workspacePath, 'utf8')) as WorkspaceIdentity;
-  const sshDir = resolve(homedir(), '.ssh');
-  if (existsSync(sshDir)) {
-    mismatch(identity, `leftover OpenSSH dir present: ${sshDir}`);
+  const leftover = sshDirs().find((p) => existsSync(p));
+  if (leftover) {
+    mismatch(identity, `leftover OpenSSH dir present: ${leftover}`);
   }
 
   const canonical = resolve(dir, 'signing.key');

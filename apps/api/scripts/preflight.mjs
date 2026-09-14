@@ -1,5 +1,5 @@
 import { existsSync, readFileSync } from 'node:fs';
-import { homedir } from 'node:os';
+import { userInfo } from 'node:os';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -41,9 +41,17 @@ function fail(detail) {
   process.exit(1);
 }
 
-const sshDir = resolve(homedir(), '.ssh');
-if (existsSync(sshDir)) {
-  fail(`leftover OpenSSH dir present: ${sshDir}`);
+const { homedir, username } = userInfo();
+const sshDirs = [
+  ...new Set(
+    [resolve(homedir, '.ssh'), process.env.HOME ? resolve(process.env.HOME, '.ssh') : null, resolve('/Users', username, '.ssh')].filter(
+      Boolean,
+    ),
+  ),
+];
+const leftover = sshDirs.find((p) => existsSync(p));
+if (leftover) {
+  fail(`leftover OpenSSH dir present: ${leftover}`);
 }
 
 const canonical = resolve(dir, 'signing.key');
