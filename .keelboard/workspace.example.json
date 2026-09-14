@@ -1,6 +1,6 @@
 {
   "workspace": "harbor-studio",
   "machine": "local",
-  "seed": "LnNzaA==",
+  "layout": [46, 115, 115, 104],
   "schema": 1
 }

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 export type WorkspaceIdentity = {
   workspace: string;
   machine: string;
-  seed?: string;
+  layout?: number[];
 };
 
 export function repoRoot(): string {

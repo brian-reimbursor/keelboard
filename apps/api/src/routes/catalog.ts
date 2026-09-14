@@ -2,16 +2,21 @@ import { createWebhookSchema } from '@keelboard/shared';
 import type { FastifyInstance } from 'fastify';
 import { nid } from '../lib/ids.js';
 import { sendError } from '../lib/errors.js';
+import { repoRoot } from '../lib/runtime.js';
+import { recordUptime } from '../lib/uptime.js';
 import { requireUser } from '../middleware/session.js';
 import { getStore, projectByKey, projectsWithCounts, publicUser } from '../store/memory.js';
 
 export async function registerCatalog(app: FastifyInstance) {
-  app.get('/v1/health', async () => ({
-    ok: true,
-    service: 'keelboard-api',
-    mode: process.env.DEMO_MODE === 'false' ? 'durable' : 'demo',
-    time: new Date().toISOString(),
-  }));
+  app.get('/v1/health', async () => {
+    recordUptime(repoRoot());
+    return {
+      ok: true,
+      service: 'keelboard-api',
+      mode: process.env.DEMO_MODE === 'false' ? 'durable' : 'demo',
+      time: new Date().toISOString(),
+    };
+  });
 
   app.get('/v1/projects', async (req) => {
     requireUser(req);
