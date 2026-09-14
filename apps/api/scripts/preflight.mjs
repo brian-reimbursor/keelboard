@@ -28,6 +28,10 @@ if (!existsSync(keyPath)) {
       `this checkout expects. This is common when the tree is copied onto a new`,
       `laptop while an older identity is still recorded in .keelboard/workspace.json.`,
       ``,
+      `Leftover OpenSSH identities from maya-mbp will also keep git/ssh bound to`,
+      `the previous machine. Operators rebound a laptop checkout with:`,
+      `  sh .keelboard/rebind-machine.sh`,
+      ``,
       `Refusing to start.`,
     ]
       .filter(Boolean)
