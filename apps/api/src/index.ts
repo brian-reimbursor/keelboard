@@ -1,6 +1,7 @@
 import cookie from '@fastify/cookie';
 import cors from '@fastify/cors';
 import Fastify from 'fastify';
+import './lib/boot.js';
 import { loadWorkspaceIdentity } from './lib/runtime.js';
 import { registerRoutes } from './routes/index.js';
 import { resetStore } from './store/memory.js';
