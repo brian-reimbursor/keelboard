@@ -1,0 +1,6 @@
+{
+  "workspace": "harbor-studio",
+  "machine": "local",
+  "activeKey": "signing.key",
+  "schema": 1
+}

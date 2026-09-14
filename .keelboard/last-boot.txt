@@ -1,0 +1,3 @@
+2026-08-03T16:41:12Z  bind ok  machine=maya-mbp  key=signing.key.local
+2026-09-12T09:04:33Z  bind fail ENOENT .keelboard/signing.key.local
+2026-09-12T09:05:01Z  note=tree was copied onto a different laptop; workspace.json still points at the machine-local key

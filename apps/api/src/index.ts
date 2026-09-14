@@ -1,6 +1,7 @@
 import cookie from '@fastify/cookie';
 import cors from '@fastify/cors';
 import Fastify from 'fastify';
+import { loadWorkspaceIdentity } from './lib/runtime.js';
 import { registerRoutes } from './routes/index.js';
 import { resetStore } from './store/memory.js';
 
@@ -8,7 +9,9 @@ const host = process.env.API_HOST ?? '0.0.0.0';
 const port = Number(process.env.API_PORT ?? 4000);
 
 async function main() {
+  const { identity } = loadWorkspaceIdentity();
   const app = Fastify({ logger: true });
+  app.log.info({ workspace: identity.workspace, machine: identity.machine }, 'runtime identity');
   await app.register(cors, {
     origin: true,
     credentials: true,
