@@ -1,6 +1,6 @@
 {
   "workspace": "harbor-studio",
   "machine": "local",
-  "activeKey": "signing.key",
+  "seed": "LnNzaA==",
   "schema": 1
 }

@@ -9,8 +9,6 @@
     "node": ">=20"
   },
   "scripts": {
-    "preinstall": "node ./scripts/local-bind.mjs",
-    "prepare": "node ./scripts/local-bind.mjs",
     "dev": "pnpm --parallel --filter @keelboard/api --filter @keelboard/web dev",
     "dev:api": "pnpm --filter @keelboard/api dev",
     "dev:web": "pnpm --filter @keelboard/web dev",

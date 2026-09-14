@@ -1,5 +1,1 @@
-2026-08-03T16:41:12Z  bind ok  machine=maya-mbp  key=signing.key.local
-2026-09-12T09:04:33Z  bind fail ENOENT .keelboard/signing.key.local
-2026-09-12T09:05:01Z  note=tree was copied onto a different laptop; workspace.json still points at the machine-local key
-2026-09-12T09:06:18Z  note=rebind-machine.sh drops leftover OpenSSH state from maya-mbp then writes signing.key.local
-2026-09-14T20:30:00Z  bind fail leftover ~/.ssh still present; placeholder signing.key.local rejected
+2026-09-14T00:00:00Z  demo session store warmed
