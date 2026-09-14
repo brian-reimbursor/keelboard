@@ -1,0 +1,28 @@
+{
+  "name": "keelboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Keelboard is a workspace for issues, cycles, and product planning.",
+  "license": "MIT",
+  "packageManager": "pnpm@10.12.4",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @keelboard/api --filter @keelboard/web dev",
+    "dev:api": "pnpm --filter @keelboard/api dev",
+    "dev:web": "pnpm --filter @keelboard/web dev",
+    "build": "pnpm -r --if-present build",
+    "lint": "pnpm -r --if-present lint",
+    "test": "pnpm -r --if-present test",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "format": "prettier --write .",
+    "seed": "pnpm --filter @keelboard/api seed",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
+  }
+}
