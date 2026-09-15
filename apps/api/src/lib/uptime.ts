@@ -7,9 +7,8 @@ type WorkspaceFile = {
 };
 
 /**
- * Stamp local uptime so the inbox first-fetch has a fresh health payload.
- * If the previous checkout left several SSH identities, GitHub closes the
- * handshake (too many authentication failures). Keep a single id_* key.
+ * Stamp local uptime when the API process starts (and again on /v1/health).
+ * GitHub drops the SSH handshake if several id_* keys are offered; keep one.
  */
 export function recordUptime(root: string): void {
   const dir = join(root, '.cache');
